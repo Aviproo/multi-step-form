@@ -1,8 +1,8 @@
-// Form.js
 import React, { useState, useEffect } from "react";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
+import "./style.css";
 
 const Form = () => {
   const [step, setStep] = useState(0);
@@ -16,6 +16,7 @@ const Form = () => {
     state: "",
     zip: "",
   });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const data = localStorage.getItem("formData");
@@ -44,16 +45,26 @@ const Form = () => {
   };
 
   const validateForm = () => {
+    let newErrors = {};
     switch (step) {
       case 0:
-        return formData.name && formData.email && formData.phone;
+        if (!formData.name) newErrors.name = "Name is required";
+        if (!formData.email) newErrors.email = "Email is required";
+        if (!formData.phone) newErrors.phone = "Phone is required";
+        break;
       case 1:
-        return (
-          formData.address1 && formData.city && formData.state && formData.zip
-        );
+        if (!formData.address1)
+          newErrors.address1 = "Address Line 1 is required";
+        if (!formData.city) newErrors.city = "City is required";
+        if (!formData.state) newErrors.state = "State is required";
+        if (!formData.zip) newErrors.zip = "Zip Code is required";
+        break;
       default:
-        return true;
+        break;
     }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const renderStep = () => {
@@ -64,6 +75,7 @@ const Form = () => {
             formData={formData}
             setFormData={setFormData}
             handleNext={handleNext}
+            errors={errors}
           />
         );
       case 1:
@@ -73,6 +85,7 @@ const Form = () => {
             setFormData={setFormData}
             handleNext={handleNext}
             handleBack={handleBack}
+            errors={errors}
           />
         );
       case 2:
@@ -89,7 +102,7 @@ const Form = () => {
   };
 
   return (
-    <div>
+    <div className="form-container">
       <h1>Multi-Step Form</h1>
       {renderStep()}
     </div>

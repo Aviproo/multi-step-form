@@ -1,4 +1,3 @@
-// Step1.js
 import React from "react";
 
 const Step1 = ({ formData, setFormData, handleNext, errors }) => {
@@ -19,6 +18,7 @@ const Step1 = ({ formData, setFormData, handleNext, errors }) => {
       />
       {errors.name && <span>{errors.name}</span>}
       <input
+        type="email"
         name="email"
         value={email}
         onChange={handleChange}
@@ -32,7 +32,12 @@ const Step1 = ({ formData, setFormData, handleNext, errors }) => {
         placeholder="Phone"
       />
       {errors.phone && <span>{errors.phone}</span>}
-      <button onClick={handleNext}>Next</button>
+      <button onClick={handleNext} disabled>
+        Back
+      </button>
+      <button type="submit" onClick={handleNext}>
+        Next
+      </button>
     </div>
   );
 };

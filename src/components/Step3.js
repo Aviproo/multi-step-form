@@ -1,4 +1,3 @@
-// Step3.js
 import React from "react";
 
 const Step3 = ({ formData, handleBack, handleSubmit }) => {
